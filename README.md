@@ -1,2 +1,8 @@
-# Groupe de douri_m 1016581
+# Game Wordle
+
+##Run the game withe 
+
+npm i node.js 
+
+node Wordle.js
 

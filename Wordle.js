@@ -1,44 +1,36 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var lib_1 = require("./lib");
+import { getInput, getRandomWord } from './lib.js';
 function isInvalidInput(word) {
-    return word.length > 5 || word.length < 5 || word.toLowerCase() === word;
+    return word.length !== 5 || word !== word.toUpperCase();
 }
-var motchercher = (0, lib_1.getInput)('Deviner un mots de 5 lettre : ');
+let motchercher = getInput('Deviner un mot de 5 lettres en MAJUSCULES : ');
 while (isInvalidInput(motchercher)) {
-    console.log("Erreur : Le mot doit avoir 5 caractères et ne pas être en minuscules.");
-    motchercher = (0, lib_1.getInput)('Deviner un mot de 5 lettres (pas de minuscules) : ').toUpperCase();
+    console.log("Erreur : Le mot doit avoir 5 caractères et être en MAJUSCULES.");
+    motchercher = getInput('Deviner un mot de 5 lettres : ').toUpperCase();
 }
-var randomword = (0, lib_1.getRandomWord)();
+const randomword = getRandomWord();
 console.clear();
-var count = 1;
-var n = 6;
-var _loop_1 = function () {
-    console.clear();
-    var hints = [];
-    motchercher.split('').forEach(function (letter, index) {
+let count = 1;
+const maxAttempts = 6;
+while (motchercher !== randomword && count <= maxAttempts) {
+    const hints = motchercher.split('').map((letter, index) => {
         if (randomword[index] === letter) {
-            hints.push("\u001B[32m".concat(letter, "\u001B[0m"));
+            return `\x1b[32m${letter}\x1b[0m`; // Vert : bonne lettre et bonne position
         }
         else if (randomword.includes(letter)) {
-            hints.push("\u001B[33m".concat(letter, "\u001B[0m"));
+            return `\x1b[33m${letter}\x1b[0m`; // Jaune : lettre correcte mais mauvaise position
         }
         else {
-            hints.push(letter);
+            return `\x1b[31m${letter}\x1b[0m`; // Rouge : lettre incorrecte
         }
     });
-    var hintString = hints.join(' ');
-    console.log(hintString);
-    motchercher = (0, lib_1.getInput)("Retenter votre chance il vous reste ".concat(n - 1, ", essaie :")).toUpperCase();
+    console.clear();
+    console.log(hints.join(' '));
+    motchercher = getInput(`Retentez votre chance, il vous reste ${maxAttempts - count} essai(s) :`).toUpperCase();
     count++;
-    n--;
-};
-while (motchercher !== randomword && count < 6) {
-    _loop_1();
 }
 if (motchercher === randomword) {
-    console.log("Vous avez gagner ! Le mot \u00E9tait, \u001B[32m".concat(randomword, "\u001B[0m"));
+    console.log(`Vous avez gagné ! Le mot était : \x1b[32m${randomword}\x1b[0m`);
 }
 else {
-    console.log("Dommage vous avez utiliser toutes vos chance, le mot est : ".concat(randomword, " "));
+    console.log(`Dommage, vous avez utilisé toutes vos chances. Le mot était : ${randomword}`);
 }

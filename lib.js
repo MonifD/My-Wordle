@@ -1,11 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getRandomWord = exports.getInput = void 0;
-var rl = require("readline-sync");
-var getInput = function (question) { return rl.question("".concat(question, "\n")); };
-exports.getInput = getInput;
-var getRandomWord = function () {
-    var words = ['Abuse', 'Adult', 'Agent', 'Anger', 'Apple', 'Award', 'Basis', 'Beach', 'Birth',
+import * as rl from 'readline-sync';
+export const getInput = (question) => rl.question(`${question}\n`);
+export const getRandomWord = () => {
+    const words = ['Abuse', 'Adult', 'Agent', 'Anger', 'Apple', 'Award', 'Basis', 'Beach', 'Birth',
         'Block', 'Blood', 'Board', 'Brain', 'Bread', 'Break', 'Brown', 'Buyer', 'Cause', 'Chain', 'Chair',
         'Chest', 'Chief', 'Child', 'China', 'Claim', 'Class', 'Clock', 'Coach', 'Coast', 'Court', 'Cover',
         'Cream', 'Crime', 'Cross', 'Crowd', 'Crown', 'Cycle', 'Dance', 'Death', 'Depth', 'Doubt', 'Draft',
@@ -58,4 +54,3 @@ var getRandomWord = function () {
         'Tomoz', 'Truly', 'Twice', 'Under', 'Utter', 'Verry', 'Wanly', 'Wetly', 'Where', 'Wrong', 'Wryly'];
     return words[Math.floor(Math.random() * words.length)].toUpperCase();
 };
-exports.getRandomWord = getRandomWord;

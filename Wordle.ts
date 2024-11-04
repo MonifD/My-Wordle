@@ -2,39 +2,40 @@
 import { getInput, getRandomWord } from './lib';
 
 function isInvalidInput(word: string): boolean {
-  return word.length > 5 || word.length < 5 || word.toLowerCase() === word;
+  return word.length !== 5 || word !== word.toUpperCase();
 }
 
-let motchercher = getInput('Deviner un mots de 5 lettre : ');
+let motchercher = getInput('Deviner un mot de 5 lettres en MAJUSCULES : ');
 
 while (isInvalidInput(motchercher)) {
-  console.log("Erreur : Le mot doit avoir 5 caractères et ne pas être en minuscules.");
-  motchercher = getInput('Deviner un mot de 5 lettres (pas de minuscules) : ').toUpperCase();
+  console.log("Erreur : Le mot doit avoir 5 caractères et être en MAJUSCULES.");
+  motchercher = getInput('Deviner un mot de 5 lettres : ').toUpperCase();
 }
 
 const randomword = getRandomWord();
 console.clear();
-let count: number = 1;
-let n: number = 6;
-while (motchercher !== randomword && count < 6) {
-  console.clear();
-  const hints: any = [];
-  motchercher.split('').forEach((letter: any, index: any) => {
+let count = 1;
+const maxAttempts = 6;
+
+while (motchercher !== randomword && count <= maxAttempts) {
+  const hints: string[] = motchercher.split('').map((letter: string, index: number) => {
     if (randomword[index] === letter) {
-      hints.push(`\x1b[32m${letter}\x1b[0m`);
+      return `\x1b[32m${letter}\x1b[0m`; // Vert : bonne lettre et bonne position
     } else if (randomword.includes(letter)) {
-      hints.push(`\x1b[33m${letter}\x1b[0m`);
+      return `\x1b[33m${letter}\x1b[0m`; // Jaune : lettre correcte mais mauvaise position
     } else {
-      hints.push(letter);
+      return `\x1b[31m${letter}\x1b[0m`; // Rouge : lettre incorrecte
     }
   });
-  const hintString = hints.join(' ');
-  console.log(hintString);
-  motchercher = getInput(`Retenter votre chance il vous reste ${n - 1}, essaie :`).toUpperCase();
+
+  console.clear();
+  console.log(hints.join(' '));
+  motchercher = getInput(`Retentez votre chance, il vous reste ${maxAttempts - count} essai(s) :`).toUpperCase();
   count++;
-  n--;
 }
 
 if (motchercher === randomword) {
-  console.log(`Vous avez gagner ! Le mot était, \x1b[32m${randomword}\x1b[0m`);
-} else { console.log(`Dommage vous avez utiliser toutes vos chance, le mot est : ${randomword} `); }
+  console.log(`Vous avez gagné ! Le mot était : \x1b[32m${randomword}\x1b[0m`);
+} else {
+  console.log(`Dommage, vous avez utilisé toutes vos chances. Le mot était : ${randomword}`);
+}

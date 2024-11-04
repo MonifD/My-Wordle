@@ -40,5 +40,5 @@ if (motchercher === randomword) {
     console.log("Vous avez gagner ! Le mot \u00E9tait, \u001B[32m".concat(randomword, "\u001B[0m"));
 }
 else {
-    console.log('Dommage vous avez utiliser toutes vos chance');
+    console.log("Dommage vous avez utiliser toutes vos chance, le mot est : ".concat(randomword, " "));
 }

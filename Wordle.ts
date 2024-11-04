@@ -37,4 +37,4 @@ while (motchercher !== randomword && count < 6) {
 
 if (motchercher === randomword) {
   console.log(`Vous avez gagner ! Le mot était, \x1b[32m${randomword}\x1b[0m`);
-} else { console.log('Dommage vous avez utiliser toutes vos chance'); }
+} else { console.log(`Dommage vous avez utiliser toutes vos chance, le mot est : ${randomword} `); }
